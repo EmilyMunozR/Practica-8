@@ -1,0 +1,18 @@
+<table class="table table-sm">
+    <thead class="table-active">
+        <tr>
+            <th>Id</th>
+            <th>Nombre</th>
+            <th>Descripcion</th>
+        </tr>
+    </thead>
+    <tbody>
+        {% for traje in trajes %}
+        <tr>
+            <td>{{ traje.IdTraje }}</td>
+            <td>{{ traje.Nombre }}</td>
+            <td>{{ traje.Descripcion }}</td>
+        </tr>
+        {% endfor %}
+    </tbody>
+</table>
