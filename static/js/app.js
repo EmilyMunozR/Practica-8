@@ -24,7 +24,7 @@ app.config(function ($routeProvider, $locationProvider) {
         controller: "trajesCtrl"
     })
     .when("/rentas", {
-        templateUrl: "/rentas",
+        templateUrl: "/rentas.html",
         controller: "rentasCtrl"
     })
     .otherwise({
