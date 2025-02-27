@@ -7,13 +7,11 @@
 from flask import Flask, render_template
 from flask_cors import CORS
 import mysql.connector
-import datetime
-import pytz
 
 app = Flask(__name__)
 CORS(app)
 
-# Establece la conexión de manera centralizada
+# Función centralizada para obtener la conexión a la base de datos
 def get_db_connection():
     return mysql.connector.connect(
         host="185.232.14.52",
@@ -24,26 +22,20 @@ def get_db_connection():
 
 @app.route("/")
 def index():
-    con = get_db_connection()
-    cursor = con.cursor(dictionary=True)
-
-    # Puedes consultar lo que necesites en esta ruta
-    cursor.close()
-    con.close()
-
     return render_template("index.html")
 
 @app.route("/app")
 def app2():
     return "<h5>Hola, soy la view app</h5> <br> <h1>Do You Really Think I Need All Of These Guards In The HexGates</h1>"
 
-@app.route("/rentas")
+@app.route("/trajes")
 def trajes():
     con = get_db_connection()
     cursor = con.cursor(dictionary=True)
+
     sql = """
         SELECT IdTraje, Nombre, Descripcion
-        FROM rentas
+        FROM trajes
         LIMIT 10 OFFSET 0
     """
 
@@ -53,17 +45,16 @@ def trajes():
     cursor.close()
     con.close()
 
-    return render_template("rentas.html", rentas=registros)
-
-if __name__ == "__main__":
-    app.run(debug=True)
+    return render_template("trajes.html", trajes=registros)  # Corregido: antes era rentas.html
 
 @app.route("/rentas")
 def rentas():
     con = get_db_connection()
     cursor = con.cursor(dictionary=True)
+
     sql = """
-        SELECT * FROM rentas
+        SELECT rentas.*, trajes.Nombre, trajes.Descripcion 
+        FROM rentas
         INNER JOIN trajes ON trajes.IdTraje = rentas.IdTraje
         LIMIT 10 OFFSET 0
     """
@@ -76,5 +67,6 @@ def rentas():
 
     return render_template("rentas.html", rentas=registros)
 
+# Ejecutar la aplicación una sola vez
 if __name__ == "__main__":
     app.run(debug=True)
