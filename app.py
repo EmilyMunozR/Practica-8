@@ -45,7 +45,7 @@ def trajes():
     cursor.close()
     con.close()
 
-    return render_template("trajes.html", trajes=registros)  # Corregido: antes era rentas.html
+    return render_template("trajes.html", trajes=registros)  
 
 @app.route("/rentas")
 def rentas():
